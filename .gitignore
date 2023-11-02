@@ -1,32 +1,17 @@
-# Prerequisites
-*.d
+# Ignore all other files
+*
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Do not ignore directions
+!*/
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+!MPI1Proc*.cpp
+!MPI2Send*.cpp
+!MPI3Coll*.cpp
+!MPI4Type*.cpp
+!MPI5Comm*.cpp
+!MPI6File*.cpp
+!MPI7Win*.cpp
+!MPI8Inter*.cpp
+!OMPBegin*.cpp
+!MPI9Matr*.cpp
+!MPIGravit*.cpp
