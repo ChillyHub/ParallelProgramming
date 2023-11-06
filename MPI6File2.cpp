@@ -2,11 +2,11 @@
 
 #include "mpi.h"
 
-#include <vector>
+#include <string>
 
 void Solve()
 {
-    Task("MPI6File10");
+    Task("MPI6File2");
     int flag;
     MPI_Initialized(&flag);
     if (flag == 0)
@@ -16,7 +16,6 @@ void Solve()
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     char name[20];
-
     if (!rank)
     {
         pt >> name;
@@ -28,19 +27,23 @@ void Solve()
 
     MPI_File_open(MPI_COMM_WORLD, name, MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &f);
 
-    int intSize;
-    MPI_Type_size(MPI_INT, &intSize);
-
-    MPI_Offset offset = intSize * (rank - 1) * rank / 2;
-    MPI_File_seek(f, offset, MPI_SEEK_SET);
-
-    std::vector<int> src;
     if (rank)
     {
-        src = std::vector<int>(ptin_iterator<int>(rank), ptin_iterator<int>());
+    	int count;
+        pt >> count;
+    
+        for (int i = 0; i < count; ++i)
+        {
+            int offset, num;
+            pt >> offset >> num;
+    
+            int intSize;
+            MPI_Type_size(MPI_INT, &intSize);
+    
+            MPI_Offset mOffset = (offset - 1) * intSize;
+            MPI_File_write_at(f, mOffset, &num, 1, MPI_INT, MPI_STATUS_IGNORE);
+        }
     }
-
-    MPI_File_write_all(f, src.data(), rank, MPI_INT, MPI_STATUS_IGNORE);
 
     MPI_File_close(&f);
 }
